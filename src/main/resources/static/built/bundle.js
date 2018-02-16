@@ -1058,7 +1058,6 @@ var App = function (_React$Component) {
 				this.setState({ alert: 2 });
 			} else {
 				this.addPostToDB(nick, content);
-				this.clearInputs();
 			}
 		}
 	}, {
@@ -1081,12 +1080,6 @@ var App = function (_React$Component) {
 			}).then(function (post) {
 				_this3.addPostToLocalList(post);
 			});
-		}
-	}, {
-		key: 'clearInputs',
-		value: function clearInputs() {
-			this.textArea = '';
-			this.nameArea = '';
 		}
 	}, {
 		key: 'addPostToLocalList',
