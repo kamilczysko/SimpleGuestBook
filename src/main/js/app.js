@@ -4,6 +4,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Alert from './alerts.js'
+import List from './list.js'
 
 class App extends React.Component{
 
@@ -11,14 +12,7 @@ class App extends React.Component{
 		super(propos);
 
 		this.state = {
-			posts:[
-				{jID: 1,
-					nick: 'beniz',
-				post: 'twoja stara śmieerdzi'},
-				{jID:2,
-					nick: 'kutopenot',
-				post: 'A twoja śmierdzi'},
-			],
+			posts:[],
 			alert:0
 		};
 
@@ -26,51 +20,59 @@ class App extends React.Component{
 			nick:'',
 			content:''
 		};
+
+		this.removePost = this.removePost.bind(this);
 	}
 
 	componentDidMount(){
 		
-			fetch("/api/posts").then(posts => {
-				return posts.json();
-			}).then(posts => {
-				return posts._embedded.posts			
-				}).then(list => 
-						this.setState({posts: list})
-				);			
-	}//*/
+		fetch("/api/posts").then(posts => {
+			return posts.json();
+		}).then(posts => {
+			return posts._embedded.posts			
+		}).then(list => 
+			this.setState({posts: list})
+		);			
+	}
 
-	addPost(){
-
-		
+	addPost(){		
 		var nick = this.newPost.nick;
 		var content = this.newPost.content;
 
 		if(nick.trim() == '' || content.trim() == ''){
-			console.log("puste gowno");
 			this.setState({alert: 2});
 		}else{
-			fetch('/add',{
-				method: 'POST',
-				headers: {
-					'Accept':'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					'nick': nick,
-					'post': content
-				})
-			})
-			.then(response => {
-				return response.json();
-			}).then(body => 
-			{			
-				this.setState({alert: 1});
-				this.state.posts.push(body);
-				this.setState({posts: this.state.posts});	
-				}		
-			);	//*/
+			this.addPostToDB(nick, content);
 		}
 	}
+
+	addPostToDB(nick, content){
+		fetch('/add',{
+			method: 'POST',
+			headers: {
+				'Accept':'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				'nick': nick,
+				'post': content
+			})
+		})
+		.then(response => {
+			return response.json();
+		}).then(post => {			
+				this.addPostToLocalList(post);
+		});
+	}
+
+
+
+	addPostToLocalList(post){
+		this.setState({alert: 1});
+		this.state.posts.push(post);
+		this.setState({posts: this.state.posts});	
+	}
+
 
 	updateNick(e){
 		var nick = e.currentTarget.value;
@@ -85,19 +87,17 @@ class App extends React.Component{
 	}
 
 	removePost(e){
-		var id = e.currentTarget.value;
-	   	console.log("do usunueca : "+id);
+		e.preventDefault();
 
-	  	fetch("/remove",{
-			method: 'POST',
-			headers:{
-				'Accept': 'application/json',
-   				'Content-Type': 'application/json',
-			},
-			body:JSON.stringify({'id':id})
-		});//*/
-		
-	   	var tmpList = this.state.posts;
+		var id = e.currentTarget.value;
+	   	
+		this.removeFromList(id);
+		this.removeFromDB(id);
+	}
+
+	removeFromList(id){
+
+		var tmpList = this.state.posts;
 		var newList = tmpList.filter(p => {
 
 			if(p.jID != id)
@@ -106,26 +106,38 @@ class App extends React.Component{
 		});
 
 	   	this.setState({posts: newList});
-	   	
+	}
+
+	removeFromDB(id){
+
+		fetch("/remove",{
+			method: 'POST',
+			headers:{
+				'Accept': 'application/json',
+   				'Content-Type': 'application/json',
+			},
+			body:JSON.stringify({'id':id})
+		});//*/
 	}
 
 	render(){
 		
 		return(
 
-<div>
+			<div>
+			<div style={{height: "50px"}}>
 					<Alert alert = {this.state.alert} />
-				
+			</div>
 					<div className="form-group">
 						<label>Komentarz:</label>
-						<textarea className="form-control" rows="5" id="comment"  onChange={this.updateContent.bind(this)}></textarea>
+						<textarea className="form-control" rows="5" id="comment" ref="textArea" onChange={this.updateContent.bind(this)}></textarea>
 					</div>
 
 
 					<div className="col-lg-6">
 						<div className="input-group">
 					
-							<input type="text" className="form-control" placeholder="Imię" id="ex4" onChange={this.updateNick.bind(this)} ></input>
+							<input type="text" className="form-control" placeholder="Imię" ref="nameArea" id="ex4" onChange={this.updateNick.bind(this)} ></input>
 							
 							<div className="float-right">
 								<span className="input-group-btn">
@@ -138,9 +150,41 @@ class App extends React.Component{
 
 					<hr />
 					
-					
-						{this.state.posts.map((post) => 
-							<div className="p-3 mb-2 bg-secondary text-white" style={{marginBottom: "30px"}}  key = {post.jID} >
+					<List 
+						posts = {this.state.posts}
+						callback = {this.removePost}/>
+	
+		</div>
+			
+
+			);
+	}
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+
+
+/*
+	
+	{this.state.posts.map((post) => 
+							{return(
+															<SinglePost 
+
+																
+																post = {post}
+																callback = {this.removePost} 
+																key = {post.jID}/>
+																);}
+							)
+						}
+
+
+*/
+
+/*
+
+
+		<div className="p-3 mb-2 bg-secondary text-white" style={{marginBottom: "30px"}}  key = {post.jID} >
 										<div className="form-inline">
 
 											<div className="form-group" >
@@ -161,16 +205,6 @@ class App extends React.Component{
 											
 										</div>
 									</div>
-									)
-							}
 
 
-					
-	</div>
-			
-
-			);
-	}
-}
-
-ReactDOM.render(<App />, document.getElementById('root'));
+*/

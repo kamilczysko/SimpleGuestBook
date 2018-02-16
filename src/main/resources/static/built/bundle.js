@@ -258,6 +258,21 @@ process.umask = function() { return 0; };
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports = __webpack_require__(16);
+} else {
+  module.exports = __webpack_require__(17);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 
 
 /**
@@ -294,21 +309,6 @@ emptyFunction.thatReturnsArgument = function (arg) {
 };
 
 module.exports = emptyFunction;
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(16);
-} else {
-  module.exports = __webpack_require__(17);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 3 */
@@ -436,6 +436,52 @@ module.exports = emptyObject;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+function checkDCE() {
+  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
+  if (
+    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' ||
+    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function'
+  ) {
+    return;
+  }
+  if (process.env.NODE_ENV !== 'production') {
+    // This branch is unreachable because this function is only called
+    // in production, but the condition is true only in development.
+    // Therefore if the branch is still here, dead code elimination wasn't
+    // properly applied.
+    // Don't change the message. React DevTools relies on it. Also make sure
+    // this message doesn't occur elsewhere in this function, or it will cause
+    // a false positive.
+    throw new Error('^_^');
+  }
+  try {
+    // Verify that the code above has been dead code eliminated (DCE'd).
+    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
+  } catch (err) {
+    // DevTools shouldn't crash React, no matter what.
+    // We should still report in case we break this code.
+    console.error(err);
+  }
+}
+
+if (process.env.NODE_ENV === 'production') {
+  // DCE check should happen before ReactDOM bundle executes so that
+  // DevTools can report bad minification during injection.
+  checkDCE();
+  module.exports = __webpack_require__(19);
+} else {
+  module.exports = __webpack_require__(22);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {/**
  * Copyright (c) 2013-present, Facebook, Inc.
  *
@@ -492,7 +538,7 @@ module.exports = invariant;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -506,7 +552,7 @@ module.exports = invariant;
 
 
 
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(2);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -561,7 +607,7 @@ module.exports = warning;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -575,8 +621,8 @@ module.exports = warning;
 
 
 if (process.env.NODE_ENV !== 'production') {
-  var invariant = __webpack_require__(5);
-  var warning = __webpack_require__(6);
+  var invariant = __webpack_require__(6);
+  var warning = __webpack_require__(7);
   var ReactPropTypesSecret = __webpack_require__(18);
   var loggedTypeFailures = {};
 }
@@ -624,52 +670,6 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 }
 
 module.exports = checkPropTypes;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-function checkDCE() {
-  /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */
-  if (
-    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === 'undefined' ||
-    typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== 'function'
-  ) {
-    return;
-  }
-  if (process.env.NODE_ENV !== 'production') {
-    // This branch is unreachable because this function is only called
-    // in production, but the condition is true only in development.
-    // Therefore if the branch is still here, dead code elimination wasn't
-    // properly applied.
-    // Don't change the message. React DevTools relies on it. Also make sure
-    // this message doesn't occur elsewhere in this function, or it will cause
-    // a false positive.
-    throw new Error('^_^');
-  }
-  try {
-    // Verify that the code above has been dead code eliminated (DCE'd).
-    __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE(checkDCE);
-  } catch (err) {
-    // DevTools shouldn't crash React, no matter what.
-    // We should still report in case we break this code.
-    console.error(err);
-  }
-}
-
-if (process.env.NODE_ENV === 'production') {
-  // DCE check should happen before ReactDOM bundle executes so that
-  // DevTools can report bad minification during injection.
-  checkDCE();
-  module.exports = __webpack_require__(19);
-} else {
-  module.exports = __webpack_require__(22);
-}
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
@@ -728,7 +728,7 @@ module.exports = ExecutionEnvironment;
  * @typechecks
  */
 
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(2);
 
 /**
  * Upstream version of event listener. Does not take into account specific
@@ -989,17 +989,21 @@ module.exports = focusNode;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(8);
+var _reactDom = __webpack_require__(5);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _alerts = __webpack_require__(27);
 
 var _alerts2 = _interopRequireDefault(_alerts);
+
+var _list = __webpack_require__(28);
+
+var _list2 = _interopRequireDefault(_list);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1018,11 +1022,7 @@ var App = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, propos));
 
 		_this.state = {
-			posts: [{ jID: 1,
-				nick: 'beniz',
-				post: 'twoja stara śmieerdzi' }, { jID: 2,
-				nick: 'kutopenot',
-				post: 'A twoja śmierdzi' }],
+			posts: [],
 			alert: 0
 		};
 
@@ -1030,6 +1030,8 @@ var App = function (_React$Component) {
 			nick: '',
 			content: ''
 		};
+
+		_this.removePost = _this.removePost.bind(_this);
 		return _this;
 	}
 
@@ -1045,38 +1047,53 @@ var App = function (_React$Component) {
 			}).then(function (list) {
 				return _this2.setState({ posts: list });
 			});
-		} //*/
-
+		}
 	}, {
 		key: 'addPost',
 		value: function addPost() {
-			var _this3 = this;
-
 			var nick = this.newPost.nick;
 			var content = this.newPost.content;
 
 			if (nick.trim() == '' || content.trim() == '') {
-				console.log("puste gowno");
 				this.setState({ alert: 2 });
 			} else {
-				fetch('/add', {
-					method: 'POST',
-					headers: {
-						'Accept': 'application/json',
-						'Content-Type': 'application/json'
-					},
-					body: JSON.stringify({
-						'nick': nick,
-						'post': content
-					})
-				}).then(function (response) {
-					return response.json();
-				}).then(function (body) {
-					_this3.setState({ alert: 1 });
-					_this3.state.posts.push(body);
-					_this3.setState({ posts: _this3.state.posts });
-				}); //*/
+				this.addPostToDB(nick, content);
+				this.clearInputs();
 			}
+		}
+	}, {
+		key: 'addPostToDB',
+		value: function addPostToDB(nick, content) {
+			var _this3 = this;
+
+			fetch('/add', {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					'nick': nick,
+					'post': content
+				})
+			}).then(function (response) {
+				return response.json();
+			}).then(function (post) {
+				_this3.addPostToLocalList(post);
+			});
+		}
+	}, {
+		key: 'clearInputs',
+		value: function clearInputs() {
+			this.textArea = '';
+			this.nameArea = '';
+		}
+	}, {
+		key: 'addPostToLocalList',
+		value: function addPostToLocalList(post) {
+			this.setState({ alert: 1 });
+			this.state.posts.push(post);
+			this.setState({ posts: this.state.posts });
 		}
 	}, {
 		key: 'updateNick',
@@ -1095,17 +1112,16 @@ var App = function (_React$Component) {
 	}, {
 		key: 'removePost',
 		value: function removePost(e) {
-			var id = e.currentTarget.value;
-			console.log("do usunueca : " + id);
+			e.preventDefault();
 
-			fetch("/remove", {
-				method: 'POST',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ 'id': id })
-			}); //*/
+			var id = e.currentTarget.value;
+
+			this.removeFromList(id);
+			this.removeFromDB(id);
+		}
+	}, {
+		key: 'removeFromList',
+		value: function removeFromList(id) {
 
 			var tmpList = this.state.posts;
 			var newList = tmpList.filter(function (p) {
@@ -1116,14 +1132,30 @@ var App = function (_React$Component) {
 			this.setState({ posts: newList });
 		}
 	}, {
+		key: 'removeFromDB',
+		value: function removeFromDB(id) {
+
+			fetch("/remove", {
+				method: 'POST',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ 'id': id })
+			}); //*/
+		}
+	}, {
 		key: 'render',
 		value: function render() {
-			var _this4 = this;
 
 			return _react2.default.createElement(
 				'div',
 				null,
-				_react2.default.createElement(_alerts2.default, { alert: this.state.alert }),
+				_react2.default.createElement(
+					'div',
+					{ style: { height: "50px" } },
+					_react2.default.createElement(_alerts2.default, { alert: this.state.alert })
+				),
 				_react2.default.createElement(
 					'div',
 					{ className: 'form-group' },
@@ -1132,7 +1164,7 @@ var App = function (_React$Component) {
 						null,
 						'Komentarz:'
 					),
-					_react2.default.createElement('textarea', { className: 'form-control', rows: '5', id: 'comment', onChange: this.updateContent.bind(this) })
+					_react2.default.createElement('textarea', { className: 'form-control', rows: '5', id: 'comment', ref: 'textArea', onChange: this.updateContent.bind(this) })
 				),
 				_react2.default.createElement(
 					'div',
@@ -1140,7 +1172,7 @@ var App = function (_React$Component) {
 					_react2.default.createElement(
 						'div',
 						{ className: 'input-group' },
-						_react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Imi\u0119', id: 'ex4', onChange: this.updateNick.bind(this) }),
+						_react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Imi\u0119', ref: 'nameArea', id: 'ex4', onChange: this.updateNick.bind(this) }),
 						_react2.default.createElement(
 							'div',
 							{ className: 'float-right' },
@@ -1157,47 +1189,9 @@ var App = function (_React$Component) {
 					)
 				),
 				_react2.default.createElement('hr', null),
-				this.state.posts.map(function (post) {
-					return _react2.default.createElement(
-						'div',
-						{ className: 'p-3 mb-2 bg-secondary text-white', style: { marginBottom: "30px" }, key: post.jID },
-						_react2.default.createElement(
-							'div',
-							{ className: 'form-inline' },
-							_react2.default.createElement(
-								'div',
-								{ className: 'form-group' },
-								_react2.default.createElement(
-									'blockquote',
-									null,
-									_react2.default.createElement(
-										'p',
-										null,
-										post.post
-									),
-									_react2.default.createElement(
-										'footer',
-										null,
-										post.nick
-									)
-								)
-							),
-							_react2.default.createElement(
-								'div',
-								{ className: 'float-right', style: { marginLeft: "50px" } },
-								_react2.default.createElement(
-									'button',
-									{ type: 'button', className: 'close', 'aria-label': 'Close', value: post.jID, onClick: _this4.removePost.bind(_this4) },
-									_react2.default.createElement(
-										'span',
-										{ 'aria-hidden': 'true' },
-										'\xD7'
-									)
-								)
-							)
-						)
-					);
-				})
+				_react2.default.createElement(_list2.default, {
+					posts: this.state.posts,
+					callback: this.removePost })
 			);
 		}
 	}]);
@@ -1206,6 +1200,51 @@ var App = function (_React$Component) {
 }(_react2.default.Component);
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('root'));
+
+/*
+	
+	{this.state.posts.map((post) => 
+							{return(
+															<SinglePost 
+
+																
+																post = {post}
+																callback = {this.removePost} 
+																key = {post.jID}/>
+																);}
+							)
+						}
+
+
+*/
+
+/*
+
+
+		<div className="p-3 mb-2 bg-secondary text-white" style={{marginBottom: "30px"}}  key = {post.jID} >
+										<div className="form-inline">
+
+											<div className="form-group" >
+												<blockquote>
+												    <p>{post.post}</p>
+												   
+												    <footer>{post.nick}</footer>
+											  	</blockquote>
+										 	</div>
+
+										 	<div className="float-right" style={{marginLeft: "50px"}}>
+										 		
+													<button type="button" className="close" aria-label="Close"  value={post.jID} onClick={this.removePost.bind(this)} >
+
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											
+										</div>
+									</div>
+
+
+*/
 
 /***/ }),
 /* 16 */
@@ -1221,7 +1260,7 @@ _reactDom2.default.render(_react2.default.createElement(App, null), document.get
  * LICENSE file in the root directory of this source tree.
  */
 
-var m=__webpack_require__(3),n=__webpack_require__(4),p=__webpack_require__(1),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.call"):60104,u=q?Symbol["for"]("react.return"):60105,v=q?Symbol["for"]("react.portal"):60106,w=q?Symbol["for"]("react.fragment"):60107,x="function"===typeof Symbol&&Symbol.iterator;
+var m=__webpack_require__(3),n=__webpack_require__(4),p=__webpack_require__(2),q="function"===typeof Symbol&&Symbol["for"],r=q?Symbol["for"]("react.element"):60103,t=q?Symbol["for"]("react.call"):60104,u=q?Symbol["for"]("react.return"):60105,v=q?Symbol["for"]("react.portal"):60106,w=q?Symbol["for"]("react.fragment"):60107,x="function"===typeof Symbol&&Symbol.iterator;
 function y(a){for(var b=arguments.length-1,e="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,c=0;c<b;c++)e+="\x26args[]\x3d"+encodeURIComponent(arguments[c+1]);b=Error(e+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}
 var z={isMounted:function(){return!1},enqueueForceUpdate:function(){},enqueueReplaceState:function(){},enqueueSetState:function(){}};function A(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}A.prototype.isReactComponent={};A.prototype.setState=function(a,b){"object"!==typeof a&&"function"!==typeof a&&null!=a?y("85"):void 0;this.updater.enqueueSetState(this,a,b,"setState")};A.prototype.forceUpdate=function(a){this.updater.enqueueForceUpdate(this,a,"forceUpdate")};
 function B(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}function C(){}C.prototype=A.prototype;var D=B.prototype=new C;D.constructor=B;m(D,A.prototype);D.isPureReactComponent=!0;function E(a,b,e){this.props=a;this.context=b;this.refs=n;this.updater=e||z}var F=E.prototype=new C;F.constructor=E;m(F,A.prototype);F.unstable_isAsyncReactComponent=!0;F.render=function(){return this.props.children};var G={current:null},H=Object.prototype.hasOwnProperty,I={key:!0,ref:!0,__self:!0,__source:!0};
@@ -1259,10 +1298,10 @@ if (process.env.NODE_ENV !== "production") {
 
 var _assign = __webpack_require__(3);
 var emptyObject = __webpack_require__(4);
-var invariant = __webpack_require__(5);
-var warning = __webpack_require__(6);
-var emptyFunction = __webpack_require__(1);
-var checkPropTypes = __webpack_require__(7);
+var invariant = __webpack_require__(6);
+var warning = __webpack_require__(7);
+var emptyFunction = __webpack_require__(2);
+var checkPropTypes = __webpack_require__(8);
 
 // TODO: this is special because it gets imported during build.
 
@@ -2636,7 +2675,7 @@ module.exports = ReactPropTypesSecret;
 /*
  Modernizr 3.0.0pre (Custom Build) | MIT
 */
-var aa=__webpack_require__(2),l=__webpack_require__(9),B=__webpack_require__(3),C=__webpack_require__(1),ba=__webpack_require__(10),da=__webpack_require__(11),ea=__webpack_require__(12),fa=__webpack_require__(13),ia=__webpack_require__(14),D=__webpack_require__(4);
+var aa=__webpack_require__(1),l=__webpack_require__(9),B=__webpack_require__(3),C=__webpack_require__(2),ba=__webpack_require__(10),da=__webpack_require__(11),ea=__webpack_require__(12),fa=__webpack_require__(13),ia=__webpack_require__(14),D=__webpack_require__(4);
 function E(a){for(var b=arguments.length-1,c="Minified React error #"+a+"; visit http://facebook.github.io/react/docs/error-decoder.html?invariant\x3d"+a,d=0;d<b;d++)c+="\x26args[]\x3d"+encodeURIComponent(arguments[d+1]);b=Error(c+" for the full message or use the non-minified dev environment for full errors and additional helpful warnings.");b.name="Invariant Violation";b.framesToPop=1;throw b;}aa?void 0:E("227");
 var oa={children:!0,dangerouslySetInnerHTML:!0,defaultValue:!0,defaultChecked:!0,innerHTML:!0,suppressContentEditableWarning:!0,suppressHydrationWarning:!0,style:!0};function pa(a,b){return(a&b)===b}
 var ta={MUST_USE_PROPERTY:1,HAS_BOOLEAN_VALUE:4,HAS_NUMERIC_VALUE:8,HAS_POSITIVE_NUMERIC_VALUE:24,HAS_OVERLOADED_BOOLEAN_VALUE:32,HAS_STRING_BOOLEAN_VALUE:64,injectDOMPropertyConfig:function(a){var b=ta,c=a.Properties||{},d=a.DOMAttributeNamespaces||{},e=a.DOMAttributeNames||{};a=a.DOMMutationMethods||{};for(var f in c){ua.hasOwnProperty(f)?E("48",f):void 0;var g=f.toLowerCase(),h=c[f];g={attributeName:g,attributeNamespace:null,propertyName:f,mutationMethod:null,mustUseProperty:pa(h,b.MUST_USE_PROPERTY),
@@ -2933,19 +2972,19 @@ if (process.env.NODE_ENV !== "production") {
   (function() {
 'use strict';
 
-var React = __webpack_require__(2);
-var invariant = __webpack_require__(5);
-var warning = __webpack_require__(6);
+var React = __webpack_require__(1);
+var invariant = __webpack_require__(6);
+var warning = __webpack_require__(7);
 var ExecutionEnvironment = __webpack_require__(9);
 var _assign = __webpack_require__(3);
-var emptyFunction = __webpack_require__(1);
+var emptyFunction = __webpack_require__(2);
 var EventListener = __webpack_require__(10);
 var getActiveElement = __webpack_require__(11);
 var shallowEqual = __webpack_require__(12);
 var containsNode = __webpack_require__(13);
 var focusNode = __webpack_require__(14);
 var emptyObject = __webpack_require__(4);
-var checkPropTypes = __webpack_require__(7);
+var checkPropTypes = __webpack_require__(8);
 var hyphenateStyleName = __webpack_require__(23);
 var camelizeStyleName = __webpack_require__(25);
 
@@ -18482,11 +18521,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _react = __webpack_require__(2);
+var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(8);
+var _reactDom = __webpack_require__(5);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -18549,6 +18588,158 @@ var Alerts = function (_React$Component) {
 }(_react2.default.Component);
 
 exports.default = Alerts;
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(5);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _singlePost = __webpack_require__(29);
+
+var _singlePost2 = _interopRequireDefault(_singlePost);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var List = function (_React$Component) {
+	_inherits(List, _React$Component);
+
+	function List(props) {
+		_classCallCheck(this, List);
+
+		return _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
+	}
+
+	_createClass(List, [{
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var list = this.props.posts;
+			return list.map(function (p) {
+				return _react2.default.createElement(_singlePost2.default, {
+					post: p,
+					callback: _this2.props.callback,
+					key: p.jID });
+			});
+		}
+	}]);
+
+	return List;
+}(_react2.default.Component);
+
+exports.default = List;
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = __webpack_require__(5);
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SinglePost = function (_React$Component) {
+	_inherits(SinglePost, _React$Component);
+
+	function SinglePost(props) {
+		_classCallCheck(this, SinglePost);
+
+		return _possibleConstructorReturn(this, (SinglePost.__proto__ || Object.getPrototypeOf(SinglePost)).call(this, props));
+	}
+
+	_createClass(SinglePost, [{
+		key: 'render',
+		value: function render() {
+			var post = this.props.post;
+			var callback = this.props.callback;
+			return _react2.default.createElement(
+				'div',
+				{ className: 'p-3 mb-2 bg-secondary text-white', style: { marginBottom: "30px" } },
+				_react2.default.createElement(
+					'div',
+					{ className: 'form-inline' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'form-group' },
+						_react2.default.createElement(
+							'blockquote',
+							null,
+							_react2.default.createElement(
+								'p',
+								null,
+								post.post
+							),
+							_react2.default.createElement(
+								'footer',
+								null,
+								post.nick
+							)
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'float-right', style: { marginLeft: "50px" } },
+						_react2.default.createElement(
+							'button',
+							{ type: 'button', className: 'close', 'aria-label': 'Close', value: post.jID, onClick: callback },
+							_react2.default.createElement(
+								'span',
+								{ 'aria-hidden': 'true' },
+								'\xD7'
+							)
+						)
+					)
+				)
+			);
+		}
+	}]);
+
+	return SinglePost;
+}(_react2.default.Component);
+
+exports.default = SinglePost;
 
 /***/ })
 /******/ ]);
